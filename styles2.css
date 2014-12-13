@@ -1,0 +1,158 @@
+body {
+	font-family: Helvetica;
+	padding top: 20px;
+	padding bottom: 20px;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	border: 1px solid black;
+	
+}
+
+header {
+	
+	margin: 0 auto;
+	width: 100%;
+	padding: 20px;
+	background-color: black;
+	color: white;
+	position: fixed;
+	z-index: 10;
+}
+
+canvas {
+	z-index: 2;
+}
+
+header div {
+  	top: 25px;
+  	left: 0px;
+  	right: 0px;
+  	margin: 0 auto;
+  	position: absolute;
+}
+
+#container {
+	
+	margin: 170px auto;
+	width: 60%;
+	padding: 20px;
+	float: right;
+	text-align: left;
+	position: relative;
+
+
+}
+
+#barGraph {
+	text-align: center;
+	margin: 0 auto;
+	width: 500px;
+	height: 500px;
+	float: left;
+	position: absolute;
+	top:1px;
+	box-shadow: 0px 0px 5px #000000;
+
+
+}
+
+#svgInner {
+
+	
+	}
+
+#barGraph:hover {
+	background-color:#E6E6E6;
+	box-shadow: 0px 0px 8px #000000;
+
+
+}
+
+#barGraphBackGround {
+	position: absolute;
+	top:88px;
+	z-index: 1;
+}
+
+#scale {
+	text-align: center;
+	width: 24%;
+	height: 500px;
+	float: right;
+}
+
+#winner {
+	float: left;
+	width: 90%;
+	height:50px;
+	margin: 20px 0px 0px 0px;
+	padding: 20px;
+	box-shadow: 0px 0px 8px #000000;
+}
+
+#buttonContainer {
+	float: left;
+	width: 90%;
+	height:50px;
+	margin: 20px 0px 0px 0px;
+	padding: 20px;
+	box-shadow: 0px 0px 8px #000000;
+}
+
+#options {
+	
+	width: 30%;
+	height: 400px;
+	margin: 0px 20px 0px 0px;
+	float: left;
+	top: 190px;
+	position: fixed;
+	z-index: -1;
+	}
+
+#optionPic1 {
+	border-radius: 100px;
+	overflow: hidden;
+	width:100px;
+	height:100px;
+	margin: 0 auto;
+	position:relative;
+	border: 5px solid red;
+}
+
+#optionPic2 {
+	border-radius: 100px;
+	overflow: hidden;
+	width:100px;
+	height:100px;
+	margin: 0 auto;
+	position:relative;
+	border: 5px solid blue;
+}
+
+#optionPic1 span {
+	position: absolute;
+	top:-19px;
+	right:-37px;
+	bottom:5px;
+}
+
+#optionPic2 span {
+	position: absolute;
+	top:-19px;
+	right:-37px;
+	bottom:5px;
+}
+
+
+footer p {
+	font-size: 12px;
+	margin: auto;
+	padding: 20px;
+	border-top: 1px solid grey;
+	background-color: white;
+	text-align: left;  
+	clear: both;
+	z-index: 1;
+}

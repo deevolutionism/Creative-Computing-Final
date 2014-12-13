@@ -1,0 +1,365 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test Arduino</title>
+        <link rel="stylesheet" type="text/css" href="styles2.css">
+        <script src="processing.js"></script>
+        <script src="socket.io.js"></script>
+        <script>
+            var socket = io.connect();
+            
+            //keep track of votes on front end
+            var votes1 = 0; 
+            var votes2 = 0; 
+            var voteTotal = 0; 
+
+
+            var votesProcess1 = function(data){ //activated when voteTally1 socket recieves data from the server. The data passed through voteTally1 is placed in 'data'
+                document.getElementById('voteDisplay1').setAttribute('height', data);
+                    votes1 = data/10; 
+                    voteTotal = votes1 + votes2;
+                    winLose()           
+            }
+       
+
+            var votesProcess2 = function(data){
+                document.getElementById('voteDisplay2').setAttribute('height', data);
+                    votes2 = data/10; 
+                    voteTotal = votes1 + votes2;
+                    winLose()           
+            }
+
+            var on = function(data){
+                document.getElementById('voteTally1').setAttribute('width',data);
+            }
+
+            socket.on('voteTally1', votesProcess1); //client recieves data from voteTally1, passes the data through voteProcess1 variable.
+            
+            socket.on('voteTally2', votesProcess2);
+
+            function winLose () {
+                document.getElementById('votingTotal').innerText = "Total number of votes: " + voteTotal;                
+            
+                if (votes1 == votes2) {
+                    document.getElementById('winner').innerText = "An equal number of people like cats and dogs.";
+                }
+                else if (votes1 < votes2) {
+                    document.getElementById('winner').innerText = "Most people like cats over dogs.";
+                }
+                else if (votes1 > votes2) {
+                    document.getElementById('winner').innerText = "Most people like dogs over cats.";
+                }
+            }
+
+
+
+            /*
+            //psuedo code for winning logic
+            if(vote1 data > votes2 data) {
+                document.getElementById('win').innerHTML = "dogs";
+                document.getElementById('lose').innerHTML = "cats";
+            } else if (vote1 data < vote2 data) {
+                document.getElementById('win').innerHTML = "cats";
+                document.getElementById('lose').innerHTML = "dogs";
+
+            } else if (vote1 data == vote2 data) {
+                document.getElementById('winner').innerHTML = "An equal number of people like cats and dogs."
+            }
+
+            */
+        
+        
+        </script>
+ 
+        
+    </head>
+    <body class='off'>
+    
+        <header>
+            <div>
+            <h1>Cats vs. Dogs: Who is more popular?</h1>
+            
+            </div>
+                <script type="text/processing">
+
+                    float xoff = 0.0;
+                    float yoff = 0.0;
+                    Ball[] ball = new ball[10];
+                  
+                  
+
+                    void setup() {
+                    size(900,75);
+                    
+                      for(int i = 0; i<ball.length; i++) {
+                            ball[i] = new Ball();
+                        }
+                                            
+
+
+                    }
+
+
+                    void draw() {
+                      xoff = xoff + .01;
+                      yoff = yoff + .02;
+                      float n = noise(xoff) * 255;
+                      float f = noise(yoff) * 255;
+                      float map1 = map(n,0,160,0,255);
+
+                      background(map1,0,f);
+
+                        for (int j = 0; j<ball.length; j++) {
+                            ball[j].run();
+                          }
+                     
+                     
+                      
+                      
+                    }
+                    class Ball{
+  
+                    
+                    PVector velocity;
+                    PVector position;
+
+                    Ball() {
+                      
+                      position = new PVector(random(30,800),random(30,40));
+                      velocity = new PVector(random(-2,2),random(-2,2));
+                    }
+
+                    void run() {
+                     display();
+                     update(); 
+                     boundary();
+                    }
+
+                    void display() {
+                        fill(255);
+                        ellipse(position.x,position.y,20,20);
+                        
+                    }
+
+                    void update() {
+                      position.x += velocity.x;
+                      position.y += velocity.y;
+                    }
+
+                    void boundary() {
+                      if (position.x > width) {
+                        velocity.x *= -1;
+                      } else if(position.x < 0) {
+                        velocity.x *= -1; 
+                      } else if(position.y > height) {
+                        velocity.y *= -1;
+                      } else if(position.y < 0) {
+                        velocity.y *= -1;
+                      }
+                    }
+
+
+                    }
+                </script>
+            <canvas></canvas>
+
+        </header>
+        <div id = 'container'>
+            <h2 id="votingTotal">Total number of votes: <span id='counter'>0</span> </h2>
+                          
+                    <div id = "barGraphBackGround">
+                    <script type="text/processing">
+                    /* @pjs preload="NyanCat.png, Doge.png"; */
+                   
+                    float xoff = 0.0;
+                    float yoff = 0.0;
+                    NyanCat[] nyan = new NyanCat[10];
+                    Doge[] doge = new Doge[10];
+
+                  
+                  
+
+                    void setup() {
+                    size(500,500);
+                    
+                        for(int i = 0; i<nyan.length; i++) {
+                            nyan[i] = new NyanCat();
+                        }
+                        for(int i = 0; i<doge.length; i++) {
+                            doge[i] = new Doge();
+                        }
+                                            
+
+
+                    }
+
+
+                    void draw() {
+                      xoff = xoff + .01;
+                      yoff = yoff + .02;
+                      float n = noise(xoff) * 255;
+                      float f = noise(yoff) * 255;
+                      float map1 = map(n,0,160,0,255);
+
+                      fill(map1,0,f,10);
+                      rect(0,0,500,500);
+
+                        for (int j = 0; j<nyan.length; j++) {
+                            nyan[j].run();
+                          }
+                        for (int j = 0; j<doge.length; j++) {
+                            doge[j].run();
+                          }                     
+                     
+                      
+                      
+                    }
+
+
+                    class NyanCat{
+
+                    PImage NyanCat;
+                    PVector velocity;
+                    PVector position;
+
+                    NyanCat() {
+                      NyanCat = loadImage("NyanCat.png");
+                      position = new PVector(random(30,400),random(30,600));
+                      velocity = new PVector(random(-2,2),random(-2,2));
+
+                    }
+
+                    void run() {
+                     display();
+                     update(); 
+                     boundary();
+                    }
+
+                    void display() {
+                        fill(255);
+                        image(NyanCat,position.x,position.y);
+                        
+                    }
+
+                    void update() {
+                      position.x += velocity.x;
+                      position.y += velocity.y;
+                    }
+
+                    void boundary() {
+                      if (position.x > width) {
+                        velocity.x *= -1;
+                      } else if(position.x < 0) {
+                        velocity.x *= -1; 
+                      } else if(position.y > height) {
+                        velocity.y *= -1;
+                      } else if(position.y < 0) {
+                        velocity.y *= -1;
+                      }
+                    }
+
+
+                    }
+                    class Doge{
+
+                    PImage Doge;
+                    PVector velocity;
+                    PVector position;
+
+                    Doge() {
+                      Doge = loadImage("Doge.png");
+                      position = new PVector(random(30,400),random(30,600));
+                      velocity = new PVector(random(-2,2),random(-2,2));
+
+                    }
+
+                    void run() {
+                     display();
+                     update(); 
+                     boundary();
+                    }
+
+                    void display() {
+                        fill(255);
+                        image(Doge,position.x,position.y);
+                        
+                    }
+
+                    void update() {
+                      position.x += velocity.x;
+                      position.y += velocity.y;
+                    }
+
+                    void boundary() {
+                      if (position.x > width) {
+                        velocity.x *= -1;
+                      } else if(position.x < 0) {
+                        velocity.x *= -1; 
+                      } else if(position.y > height) {
+                        velocity.y *= -1;
+                      } else if(position.y < 0) {
+                        velocity.y *= -1;
+                      }
+                    }
+
+
+                    }
+                    </script>
+                <canvas></canvas>
+                <div id = "barGraph">
+                <p>Graph</p>
+
+                <svg id="svgInner" xmlns="http://www.w3.org/2000/svg" 
+                version="1.1" width = "500px" height = "500px" viewBox="0 0 500 500" xml:space="preserve">
+                  <rect id="voteDisplay1" x="50" y="0" width="150" height="1" fill="red"/>
+                  <rect id="voteDisplay2" x="250" y="0" width="150" height="1" fill="blue"/>
+                </svg>
+                </div>
+
+                
+            </div>
+            <div id = 'scale'>
+                <p>scale</p>
+                <img src="images/Scale.png">
+            </div>
+            <div id = 'winner'>
+                <h3>See which animal is more popular. Cast your vote!</h3>
+            </div>
+            <div id = 'buttonContainer'>
+              <button type="button" onclick="buttonCatsClicked()">Option 1</button>
+              <button type="button" onclick="buttonDogsClicked()">Option 2</button>
+              <script>
+              var counter = 0;
+              var catVotes = 0;
+              var dogVotes = 0;
+              function buttonCatsClicked() {
+                counter += 1;
+                catVotes += 10;
+                  document.getElementById("counter").innerText = counter; 
+                  document.getElementById('voteDisplay1').setAttribute("height", catVotes);
+              }
+              function buttonDogsClicked() {
+                counter += 1;
+                dogVotes +=10;
+                  document.getElementById("counter").innerText = counter;
+                  document.getElementById('voteDiplay2').setAttribute("height",dogVotes);
+              }
+
+
+
+              </script>
+            </div>
+        </div>
+        <div id = 'options'>
+            <h3>Option 1: <br>Dogs</h3>
+            <div id="optionPic1"><span><img src="images/Doge.PNG"></span></div>
+            <h3>Option 2: <br>Cats</h3>
+            <div id="optionPic2"><span><img src="images/NyanCat.PNG"></span></div>
+           
+        </div>
+    </body>
+    <footer>
+        <p>Created by Gentry Demchak 2014 using Arduino, Processing.js, Node.js, Johnny-Five, and Socket.io.js. Special thanks to Aaron Hill for instantiating Socket.io.js</p>
+    </footer>
+</html>
